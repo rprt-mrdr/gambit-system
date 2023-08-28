@@ -104,7 +104,7 @@ public class Fighter {
         if (hit) {
             
             damage = weapon.damageTable[meleeCheck.effect - meleeCheck.effectMin] - 
-                    target.armour.resistanceTable[defendCheck.effect - defendCheck.effect];
+                    target.armour.resistanceTable[defendCheck.effect - defendCheck.effectMin];
             if (damage > 0){
                 System.out.printf("\nattack hits for %d damage\n", damage);
             }else{
