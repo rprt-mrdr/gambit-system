@@ -23,9 +23,8 @@ public class Fighter {
     //attack modifier
     int defendSkill;
     //active defend modifier? shield-based class only?
-
-    int[] damageTable;
-    int[] resistanceTable;
+    Weapon weapon;
+    Armour armour;
 
     Fighter() {
         Random rng = new Random();
@@ -35,8 +34,6 @@ public class Fighter {
         passiveDefence = dexterity + 2;
         meleeSkill = rng.nextInt(0, 3);
         defendSkill = rng.nextInt(0, 2);
-        damageTable = generateDamageTable("sword");
-        resistanceTable = new int[12];
 
     }
 

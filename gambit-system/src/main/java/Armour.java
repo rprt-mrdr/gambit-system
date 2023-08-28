@@ -10,5 +10,6 @@
 public class Armour {
     
     String name;
+    int[] resistanceTable;
     
 }
