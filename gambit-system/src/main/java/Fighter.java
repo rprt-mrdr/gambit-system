@@ -39,11 +39,13 @@ public class Fighter {
         passiveDefence = dexterity + 2;
         meleeSkill = rng.nextInt(0, 3);
         defendSkill = rng.nextInt(0, 2);
+        weapon = new Weapon("sword");
+        armour = new Armour("leather");
 
     }
 
     public void print() {
-        System.out.printf("Strength: d%d\nDexterity: d%d");
+        System.out.printf("Strength: d%d\nDexterity: d%d\n", strength, dexterity);
     }
 
     public final int[] generateDamageTable(String weapon) {
@@ -92,15 +94,25 @@ public class Fighter {
     }
 
     public void meleeAttack(Fighter target) {
-        Check meleeCheck = new Check(strength, meleeSkill);
+        Check meleeCheck = new Check(strength, meleeSkill, 8);
         Check defendCheck = target.defend();
         int damage = 0;
         System.out.printf("\n%s attacks %s\n", name, target.name);
         boolean hit = meleeCheck.score <= defendCheck.score;
         
+        //need to lower bound effect
         if (hit) {
-            damage = weapon.damageTable[meleeCheck.effect] - 
-                    target.armour.resistanceTable[defendCheck.effect];
+            
+            damage = weapon.damageTable[meleeCheck.effect - meleeCheck.effectMin] - 
+                    target.armour.resistanceTable[defendCheck.effect - defendCheck.effect];
+            if (damage > 0){
+                System.out.printf("\nattack hits for %d damage\n", damage);
+            }else{
+                System.out.println("damage resisted!");
+            }
+            
+        }else{
+            System.out.println("attack missed");
         }
         target.takeDamage(damage);
         
@@ -108,7 +120,7 @@ public class Fighter {
     }
     
     public Check defend(){
-        Check check = new Check(dexterity, defendSkill);
+        Check check = new Check(dexterity, defendSkill, 8);
         
         return check;
     }

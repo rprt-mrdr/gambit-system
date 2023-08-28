@@ -10,6 +10,6 @@
 public class GambitSystem {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        Fight fight = new Fight();
     }
 }
