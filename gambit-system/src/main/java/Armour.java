@@ -9,4 +9,6 @@
  */
 public class Armour {
     
+    String name;
+    
 }
