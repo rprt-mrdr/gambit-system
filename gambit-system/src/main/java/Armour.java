@@ -19,16 +19,16 @@ public class Armour {
                 resistanceTable = new int[]{0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2};
             }
             case "chain" -> {
-                resistanceTable = new int[]{0,0,1,1,1,1,2,2,3,3,4,4};
+                resistanceTable = new int[]{0, 0, 1, 1, 1, 1, 2, 2, 3, 3, 4, 4};
             }
             case "plate" -> {
-                resistanceTable = new int[]{1,1,2,2,2,2,3,3,4,4,5,6};
+                resistanceTable = new int[]{1, 1, 2, 2, 2, 2, 3, 3, 4, 4, 5, 6};
             }
             case "unarmoured" -> {
-                resistanceTable = new int[]{0,0,0,0,0,0,0,0,0,0,0,0};
+                resistanceTable = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
             }
             default -> {
-                resistanceTable = new int[]{0,0,0,0,0,0,0,0,0,0,0,0};
+                resistanceTable = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
             }
         }
 
