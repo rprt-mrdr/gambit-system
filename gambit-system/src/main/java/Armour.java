@@ -8,27 +8,30 @@
  * @author a
  */
 public class Armour {
-    
+
     String name;
     int[] resistanceTable;
-    
-    Armour(String name){
+
+    Armour(String name) {
         this.name = name;
-        switch (name){
+        switch (name) {
             case "leather" -> {
-                resistanceTable = new int[]{1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 8};
+                resistanceTable = new int[]{0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2};
             }
             case "chain" -> {
-                resistanceTable = new int[]{2, 2, 2, 2, 2, 2, 3, 3, 3, 4, 6, 9};
+                resistanceTable = new int[]{0,0,1,1,1,1,2,2,3,3,4,4};
             }
             case "plate" -> {
-                resistanceTable = new int[]{1, 1, 1, 1, 1, 1, 1, 2, 2, 3, 3, 12};
+                resistanceTable = new int[]{1,1,2,2,2,2,3,3,4,4,5,6};
+            }
+            case "unarmoured" -> {
+                resistanceTable = new int[]{0,0,0,0,0,0,0,0,0,0,0,0};
             }
             default -> {
-                resistanceTable = new int[]{1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3};
+                resistanceTable = new int[]{0,0,0,0,0,0,0,0,0,0,0,0};
             }
         }
-        
+
     }
-    
+
 }
