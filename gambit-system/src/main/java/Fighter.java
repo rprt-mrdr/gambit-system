@@ -10,6 +10,9 @@
 import java.util.Random;
 
 public class Fighter {
+    boolean alive;
+    
+    String name;
 
     int strength;
     //attribute for attack 
@@ -26,8 +29,10 @@ public class Fighter {
     Weapon weapon;
     Armour armour;
 
-    Fighter() {
+    Fighter(String name) {
         Random rng = new Random();
+        this.name = name;
+        alive = true;
         strength = rng.nextInt(2, 7) * 2;
         dexterity = rng.nextInt(2, 7) * 2;
         health = 16 - strength;
@@ -86,14 +91,18 @@ public class Fighter {
         return table;
     }
 
-    public void attack(Fighter target) {
-        Check check = new Check(strength, meleeSkill);
-        Check defend = target.defend();
+    public void meleeAttack(Fighter target) {
+        Check meleeCheck = new Check(strength, meleeSkill);
+        Check defendCheck = target.defend();
+        int damage = 0;
+        System.out.printf("\n%s attacks %s\n", name, target.name);
+        boolean hit = meleeCheck.score <= defendCheck.score;
         
-        boolean hit;
-        int damage;
-        int resistance;
-        int totalDamage;
+        if (hit) {
+            damage = weapon.damageTable[meleeCheck.effect] - 
+                    target.armour.resistanceTable[defendCheck.effect];
+        }
+        target.takeDamage(damage);
         
 
     }
@@ -102,6 +111,15 @@ public class Fighter {
         Check check = new Check(dexterity, defendSkill);
         
         return check;
+    }
+    
+    public void takeDamage(int damage){
+        health -= damage;
+        if (health <= 0){
+            health = 0;
+            alive = false;
+            System.out.printf("%s has fallen!\n", name);
+        }
     }
 
 }
