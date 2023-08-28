@@ -28,6 +28,10 @@ public class Gear {
         
     }
     
+    public int[] generateEffectTable(){
+        return new int[]{};
+    }
+    
     Gear(){
         
     }
