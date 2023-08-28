@@ -7,9 +7,9 @@
  *
  * @author a
  */
-public class Weapon {
+public class Weapon extends Gear{
     
-    String name;
+    
     String type;
     //crushing, piercing, etc
     int[] damageTable;
