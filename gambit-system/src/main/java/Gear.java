@@ -8,6 +8,8 @@
  * @author a
  */
 import java.util.Random;
+import java.util.Map;
+import java.util.HashMap;
 
 public class Gear {
 
@@ -31,23 +33,26 @@ public class Gear {
 
     public Effect[] generateEffectTable() {
         effectTable = new Effect[13];
+        for (int i = 0; i < 13; i++){
+            effectTable[i] = new Effect();
+        }
 
         return effectTable;
     }
 
     //THIS NEEDS REAL VALUES
-    public int[] effectValueIncrement(String shape) {
-        switch (shape) {
-            case "flat" -> {
+    public int[] effectValueIncrement(int increment) {
+        switch (increment) {
+            case 0 -> {
                 return new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1};
             }
-            case "small" -> {
+            case 1 -> {
                 return new int[]{1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2};
             }
-            case "medium" -> {
+            case 2 -> {
                 return new int[]{2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3};
             }
-            case "large" -> {
+            case 3 -> {
                 return new int[]{3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4};
             }
             default -> {
@@ -58,6 +63,12 @@ public class Gear {
 
     Gear() {
 
+    }
+    
+    public void printEffectTable(){
+        for (int i = 0; i < 13; i++){
+            System.out.println(i + " - " + effectTable[i].details);
+        }
     }
 
 }

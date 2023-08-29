@@ -8,12 +8,14 @@
  * @author geoff
  */
 import java.util.Random;
+import java.util.Map;
+import java.util.HashMap;
 
 public class Fighter {
     boolean alive;
     
     String name;
-
+    Map<String, Integer> stats = new HashMap<>();
     int strength;
     //attribute for attack 
     int dexterity;
@@ -33,8 +35,10 @@ public class Fighter {
         Random rng = new Random();
         this.name = name;
         alive = true;
-        strength = rng.nextInt(2, 7) * 2;
-        dexterity = rng.nextInt(2, 7) * 2;
+        stats.put("strength", rng.nextInt(2, 7) * 2);
+        stats.put("dexterity", rng.nextInt(2, 7) * 2);
+        //strength = rng.nextInt(2, 7) * 2;
+        //dexterity = rng.nextInt(2, 7) * 2;
         health = 16 - strength;
         passiveDefence = dexterity + 2;
         meleeSkill = rng.nextInt(0, 3);
@@ -94,7 +98,8 @@ public class Fighter {
     }
 
     public void meleeAttack(Fighter target) {
-        Check meleeCheck = new Check(strength, meleeSkill, 8);
+        Check meleeCheck = new Check(stats.get(weapon.attribute), 
+                meleeSkill, 8);
         Check defendCheck = target.defend();
         int damage = 0;
         System.out.printf("\n%s attacks %s\n", name, target.name);

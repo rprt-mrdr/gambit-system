@@ -18,19 +18,19 @@ public class Weapon extends Gear {
         switch (name) {
 
             case "sword" -> {
-                effectTable = generateEffectTable("linear", 2, true);
+                effectTable = generateEffectTable(new int[]{1, 0, 1, 2}, 2, true);
                 attribute = "strength";
             }
             case "axe" -> {
-                effectTable = generateEffectTable("shallow", 2, true);
+                effectTable = generateEffectTable(new int[]{3, 3, 3, 3}, 2, true);
                 attribute = "strength";
             }
             case "dagger" -> {
-                effectTable = generateEffectTable("linear", 2, true);
-                attribute = "strength";
+                effectTable = generateEffectTable(new int[]{}, 1, true);
+                attribute = "dexterity";
             }
             case "staff" -> {
-                effectTable = generateEffectTable("", 2, false);
+                effectTable = generateEffectTable(new int[]{}, 2, false);
                 attribute = "strength";
             }
             default -> {
@@ -39,14 +39,18 @@ public class Weapon extends Gear {
 
     }
 
-    public final Effect[] generateEffectTable(String shape, int base, boolean bleed) {
-        String[] increments;
-        
-        
-        Effect[] effectTable = super.generateEffectTable();
-        for (int i = 0; i < 13; i++) {
-            effectTable[i].damage = base;
+    public final Effect[] generateEffectTable(int[] shape, int base, boolean bleed) {
 
+        Effect[] effectTable = super.generateEffectTable();
+        effectTable[0].damage = base;
+        effectTable[0].details += base + " damage\n";
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 3; j++) {
+                base += effectValueIncrement(shape[i])[new Roll(12).result];
+                effectTable[(3 * i) + j + 1].damage = base;
+                effectTable[(3 * i) + j + 1].details += base + " damage\n";
+
+            }
         }
         return effectTable;
     }
