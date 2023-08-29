@@ -20,6 +20,7 @@ public class Check {
     int score;
     int difference;
     int effect;
+    int boundEffect;
     int scoreMin;
     int scoreMax;
     int scoreRange;
@@ -87,6 +88,7 @@ public class Check {
         effectMax = gambitSize;
         effectRange = (effectMax - effectMin) + 1;
         effect = gambitSize - difference;
+        boundEffect = effect > 0 ? effect : 0;
 
     }
 

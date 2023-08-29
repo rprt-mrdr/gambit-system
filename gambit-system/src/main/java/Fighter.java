@@ -103,8 +103,8 @@ public class Fighter {
         //need to lower bound effect
         if (hit) {
             
-            damage = weapon.damageTable[meleeCheck.effect - meleeCheck.effectMin] - 
-                    target.armour.resistanceTable[defendCheck.effect - defendCheck.effectMin];
+            damage = weapon.effectTable[meleeCheck.boundEffect].damage - 
+                    target.armour.effectTable[defendCheck.boundEffect].resistance;
             if (damage > 0){
                 System.out.printf("\nattack hits for %d damage\n", damage);
             }else{
