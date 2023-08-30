@@ -7,10 +7,16 @@
  *
  * @author a
  */
-public class Armour {
+public class Armour extends Gear {
 
-    String name;
     int[] resistanceTable;
+    
+    public static int[] generateResistanceTable(String shape, int base){
+        int[] table = new int[12];
+        table[0] = base;
+        //sets base resistance
+        return table;
+    }
 
     Armour(String name) {
         this.name = name;

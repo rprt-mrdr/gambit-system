@@ -1,11 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
 /**
  *
- * @author geoff
+ * @author rprt-mrdr
  */
 import java.util.Random;
 
@@ -16,8 +11,8 @@ public class Roll {
     Random rng;
 
     Roll() {
-        size = 6;
-        result = rng.nextInt(6) + 1;
+        size = 8;
+        result = rng.nextInt(size) + 1;
     }
 
     Roll(int size) {

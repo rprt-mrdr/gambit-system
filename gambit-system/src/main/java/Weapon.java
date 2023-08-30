@@ -7,33 +7,52 @@
  *
  * @author a
  */
-public class Weapon {
-    
-    String name;
+public class Weapon extends Gear {
+
+    String attribute;
     String type;
     //crushing, piercing, etc
-    int[] damageTable;
-    
-    Weapon(String name){
+
+    Weapon(String name) {
         this.name = name;
-        switch (name){
+        switch (name) {
+
             case "sword" -> {
-                damageTable = new int[]{1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 8};
+                effectTable = generateEffectTable(new int[]{1, 0, 1, 2}, 2, true);
+                attribute = "strength";
             }
             case "axe" -> {
-                damageTable = new int[]{2, 2, 2, 2, 2, 2, 3, 3, 3, 4, 6, 9};
+                effectTable = generateEffectTable(new int[]{3, 3, 3, 3}, 2, true);
+                attribute = "strength";
             }
             case "dagger" -> {
-                damageTable = new int[]{1, 1, 1, 1, 1, 1, 1, 2, 2, 3, 3, 12};
+                effectTable = generateEffectTable(new int[]{}, 1, true);
+                attribute = "dexterity";
             }
             case "staff" -> {
-                damageTable = new int[]{2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4};
+                effectTable = generateEffectTable(new int[]{}, 2, false);
+                attribute = "strength";
             }
             default -> {
-                damageTable = new int[]{1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3};
             }
         }
-        
+
     }
-    
+
+    public final Effect[] generateEffectTable(int[] shape, int base, boolean bleed) {
+
+        Effect[] effectTable = super.generateEffectTable();
+        effectTable[0].damage = base;
+        effectTable[0].details += base + " damage\n";
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 3; j++) {
+                base += effectValueIncrement(shape[i])[new Roll(12).result];
+                effectTable[(3 * i) + j + 1].damage = base;
+                effectTable[(3 * i) + j + 1].details += base + " damage\n";
+
+            }
+        }
+        return effectTable;
+    }
+
 }
