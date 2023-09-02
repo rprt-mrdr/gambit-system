@@ -90,7 +90,6 @@ public class Dice {
         if (barGraphEffect) {
             //cumulative not working
             System.out.println("\tEffect\n\n");
-            
             for (int i = 0; i < rangeEffect; i++) {
                 if (i == 0 || !cumulativeScores) {
                     effectPercentages[i] = (float) effectTally[i] / 10000;
@@ -102,6 +101,24 @@ public class Dice {
                     System.out.print("-");
                 }
                 System.out.println("|\n");
+            }
+        }
+        
+        if (barGraphEffect) {
+            
+            System.out.println("\tEffect (cumulative)\n\n");
+            for (int i = 0; i < rangeEffect; i++){
+                if (i == 0){
+                effectPercentages[rangeEffect - i - 1] = (float) effectTally[rangeEffect - i - 1] / 10000;
+                }else{
+                    effectPercentages[rangeEffect - 1 - i] = effectPercentages[rangeEffect - i] + (float) effectTally[rangeEffect - 1 - i] / 10000;
+                }
+                System.out.printf("\t%d . %.3f%%\n\t", (maxEffect - i), effectPercentages[rangeEffect - i - 1]);
+                for (int j = 0; j < effectPercentages[rangeEffect - 1 - i]; j++){
+                    System.out.print("-");
+                }
+                System.out.println("|\n");
+                
             }
         }
 

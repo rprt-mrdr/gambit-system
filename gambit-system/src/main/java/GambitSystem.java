@@ -15,7 +15,7 @@ public class GambitSystem {
 //        Weapon axe = new Weapon("axe");
 //        sword.printEffectTable();
 //        axe.printEffectTable();
-        Dice.analysisAlt(6, 2, 8, true, true, true, true);
+        Dice.analysisAlt(12, 2, 4, true, true, true, false);
         
     }
 }
