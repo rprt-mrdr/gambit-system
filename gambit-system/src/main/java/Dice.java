@@ -30,6 +30,8 @@ public class Dice {
         boolean showEffectGraph = input.next().equals("y");
         System.out.println("heat map? y/n");
         boolean showHeatMap = input.next().equals("y");
+        System.out.println("cumulative scores? y/n");
+        boolean cumulative = input.next().equals("y");
 
 //        analysisAlt(8, 0, 8, false, false, true);
 //        analysisAlt(10, 0, 6, false, false, true);
@@ -40,14 +42,15 @@ public class Dice {
         //analysisAlt(8, 0, 8, false, true, false);
         //analysisAlt(10, 0, 6, false, true, false);
         //analysisAlt(4, 0, 12, false, true, false);
-        analysisAlt(attribute, modifier, gambit, showScoreGraph, showEffectGraph, showHeatMap);
+        analysisAlt(attribute, modifier, gambit, showScoreGraph, showEffectGraph, showHeatMap, cumulative);
     }
 
-    public static void analysisAlt(int attribute, int modifier, int gambit, boolean barScore, boolean barEffect, boolean matrix) {
+    public static void analysisAlt(int attribute, int modifier, int gambit, boolean barScore, boolean barEffect, boolean matrix, boolean cumulative) {
         Check sampleCheck = new Check(attribute, modifier, gambit);
         boolean barGraphScore = barScore;
         boolean barGraphEffect = barEffect;
         boolean sampleMatrix = matrix;
+        boolean cumulativeScores = cumulative;
         int maxScore = sampleCheck.scoreMax;
         int maxEffect = sampleCheck.effectMax;
         int minScore = sampleCheck.scoreMin;
@@ -70,7 +73,12 @@ public class Dice {
         if (barGraphScore) {
             System.out.printf("\tScores:\n\n");
             for (int i = 0; i < rangeScore; i++) {
-                scorePercentages[i] = (float) scoreTally[i] / 10000;
+                if (i == 0 || !cumulativeScores) {
+                    scorePercentages[i] = (float) scoreTally[i] / 10000;
+                } else {
+                    scorePercentages[i] = scorePercentages[i - 1] + (float) scoreTally[i] / 10000;
+                }
+
                 System.out.printf("\t%d . %.3f%%\n\t", (i + minScore), scorePercentages[i]);
                 for (int j = 0; j < scorePercentages[i]; j++) {
                     System.out.print("-");
@@ -80,9 +88,15 @@ public class Dice {
         }
 
         if (barGraphEffect) {
+            //cumulative not working
             System.out.println("\tEffect\n\n");
+            
             for (int i = 0; i < rangeEffect; i++) {
-                effectPercentages[i] = (float) effectTally[i] / 10000;
+                if (i == 0 || !cumulativeScores) {
+                    effectPercentages[i] = (float) effectTally[i] / 10000;
+                } else {
+                    effectPercentages[i] = effectPercentages[i - 1] + (float) effectTally[i] / 10000;
+                }
                 System.out.printf("\t%d . %.3f%%\n\t", (i + minEffect), effectPercentages[i]);
                 for (int j = 0; j < effectPercentages[i]; j++) {
                     System.out.print("-");
