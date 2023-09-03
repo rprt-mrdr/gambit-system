@@ -18,6 +18,10 @@ public class Dice {
 
     public static void main(String[] args) {
 
+    }
+
+    public static void analysisAlt() {
+
         System.out.println("enter attribute");
         int attribute = input.nextInt();
         System.out.println("enter modifier");
@@ -33,16 +37,8 @@ public class Dice {
         System.out.println("cumulative scores? y/n");
         boolean cumulative = input.next().equals("y");
 
-//        analysisAlt(8, 0, 8, false, false, true);
-//        analysisAlt(10, 0, 6, false, false, true);
-//        analysisAlt(4, 0, 12, false, false, true);
-        //analysisAlt(8, 0, 8, true, false, false);
-        //analysisAlt(10, 0, 6, true, false, false);
-        //analysisAlt(4, 0, 12, true, false, false);
-        //analysisAlt(8, 0, 8, false, true, false);
-        //analysisAlt(10, 0, 6, false, true, false);
-        //analysisAlt(4, 0, 12, false, true, false);
         analysisAlt(attribute, modifier, gambit, showScoreGraph, showEffectGraph, showHeatMap, cumulative);
+
     }
 
     public static void analysisAlt(int attribute, int modifier, int gambit, boolean barScore, boolean barEffect, boolean matrix, boolean cumulative) {
@@ -87,15 +83,13 @@ public class Dice {
             }
         }
 
-        if (barGraphEffect) {
+        if (barGraphEffect && !cumulative) {
             //cumulative not working
             System.out.println("\tEffect\n\n");
             for (int i = 0; i < rangeEffect; i++) {
-                if (i == 0 || !cumulativeScores) {
-                    effectPercentages[i] = (float) effectTally[i] / 10000;
-                } else {
-                    effectPercentages[i] = effectPercentages[i - 1] + (float) effectTally[i] / 10000;
-                }
+
+                effectPercentages[i] = (float) effectTally[i] / 10000;
+
                 System.out.printf("\t%d . %.3f%%\n\t", (i + minEffect), effectPercentages[i]);
                 for (int j = 0; j < effectPercentages[i]; j++) {
                     System.out.print("-");
@@ -103,22 +97,22 @@ public class Dice {
                 System.out.println("|\n");
             }
         }
-        
-        if (barGraphEffect) {
-            
+
+        if (barGraphEffect && cumulative) {
+
             System.out.println("\tEffect (cumulative)\n\n");
-            for (int i = 0; i < rangeEffect; i++){
-                if (i == 0){
-                effectPercentages[rangeEffect - i - 1] = (float) effectTally[rangeEffect - i - 1] / 10000;
-                }else{
+            for (int i = 0; i < rangeEffect; i++) {
+                if (i == 0) {
+                    effectPercentages[rangeEffect - i - 1] = (float) effectTally[rangeEffect - i - 1] / 10000;
+                } else {
                     effectPercentages[rangeEffect - 1 - i] = effectPercentages[rangeEffect - i] + (float) effectTally[rangeEffect - 1 - i] / 10000;
                 }
                 System.out.printf("\t%d . %.3f%%\n\t", (maxEffect - i), effectPercentages[rangeEffect - i - 1]);
-                for (int j = 0; j < effectPercentages[rangeEffect - 1 - i]; j++){
+                for (int j = 0; j < effectPercentages[rangeEffect - 1 - i]; j++) {
                     System.out.print("-");
                 }
                 System.out.println("|\n");
-                
+
             }
         }
 
