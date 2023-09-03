@@ -11,10 +11,18 @@ public class GambitSystem {
 
     public static void main(String[] args) {
         //Fight fight = new Fight();
+<<<<<<< Updated upstream
         Weapon sword = new Weapon("sword");
         Weapon axe = new Weapon("axe");
         sword.printEffectTable();
         axe.printEffectTable();
+=======
+//        Weapon sword = new Weapon("sword");
+//        Weapon axe = new Weapon("axe");
+//        sword.printEffectTable();
+//        axe.printEffectTable();
+        Dice.analysisAlt();
+>>>>>>> Stashed changes
         
     }
 }

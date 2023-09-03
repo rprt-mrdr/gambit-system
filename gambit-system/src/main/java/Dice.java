@@ -31,6 +31,7 @@ public class Dice {
         System.out.println("heat map? y/n");
         boolean showHeatMap = input.next().equals("y");
 
+<<<<<<< Updated upstream
 //        analysisAlt(8, 0, 8, false, false, true);
 //        analysisAlt(10, 0, 6, false, false, true);
 //        analysisAlt(4, 0, 12, false, false, true);
@@ -41,6 +42,28 @@ public class Dice {
         //analysisAlt(10, 0, 6, false, true, false);
         //analysisAlt(4, 0, 12, false, true, false);
         analysisAlt(attribute, modifier, gambit, showScoreGraph, showEffectGraph, showHeatMap);
+=======
+        analysisAlt(attribute, modifier, gambit, showScoreGraph, showEffectGraph, showHeatMap, cumulative);
+    }
+
+    public static void analysisAlt() {
+        System.out.println("enter attribute");
+        int attribute = input.nextInt();
+        System.out.println("enter modifier");
+        int modifier = input.nextInt();
+        System.out.println("enter gambit");
+        int gambit = input.nextInt();
+        System.out.println("score graph? y/n");
+        boolean showScoreGraph = input.next().equals("y");
+        System.out.println("effect graph? y/n");
+        boolean showEffectGraph = input.next().equals("y");
+        System.out.println("heat map? y/n");
+        boolean showHeatMap = input.next().equals("y");
+        System.out.println("cumulative scores? y/n");
+        boolean cumulative = input.next().equals("y");
+
+        analysisAlt(attribute, modifier, gambit, showScoreGraph, showEffectGraph, showHeatMap, cumulative);
+>>>>>>> Stashed changes
     }
 
     public static void analysisAlt(int attribute, int modifier, int gambit, boolean barScore, boolean barEffect, boolean matrix) {
@@ -79,10 +102,20 @@ public class Dice {
             }
         }
 
+<<<<<<< Updated upstream
         if (barGraphEffect) {
             System.out.println("\tEffect\n\n");
             for (int i = 0; i < rangeEffect; i++) {
                 effectPercentages[i] = (float) effectTally[i] / 10000;
+=======
+        if (barGraphEffect && !cumulative) {
+            //cumulative not working
+            System.out.println("\tEffect\n\n");
+            for (int i = 0; i < rangeEffect; i++) {
+
+                effectPercentages[i] = (float) effectTally[i] / 10000;
+
+>>>>>>> Stashed changes
                 System.out.printf("\t%d . %.3f%%\n\t", (i + minEffect), effectPercentages[i]);
                 for (int j = 0; j < effectPercentages[i]; j++) {
                     System.out.print("-");
@@ -90,6 +123,27 @@ public class Dice {
                 System.out.println("|\n");
             }
         }
+<<<<<<< Updated upstream
+=======
+
+        if (barGraphEffect && cumulative) {
+
+            System.out.println("\tEffect (cumulative)\n\n");
+            for (int i = 0; i < rangeEffect; i++) {
+                if (i == 0) {
+                    effectPercentages[rangeEffect - i - 1] = (float) effectTally[rangeEffect - i - 1] / 10000;
+                } else {
+                    effectPercentages[rangeEffect - 1 - i] = effectPercentages[rangeEffect - i] + (float) effectTally[rangeEffect - 1 - i] / 10000;
+                }
+                System.out.printf("\t%d . %.3f%%\n\t", (maxEffect - i), effectPercentages[rangeEffect - i - 1]);
+                for (int j = 0; j < effectPercentages[rangeEffect - 1 - i]; j++) {
+                    System.out.print("-");
+                }
+                System.out.println("|\n");
+
+            }
+        }
+>>>>>>> Stashed changes
 
         //TABLE TOP ROW
         if (sampleMatrix) {
