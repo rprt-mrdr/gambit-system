@@ -12,16 +12,20 @@ import java.util.Map;
 import java.util.HashMap;
 
 public class Fighter {
+
     boolean alive;
-    
+
     String name;
     Map<String, Integer> stats = new HashMap<>();
+    int level;
+
     int strength;
     //attribute for attack 
     int dexterity;
     //attribute for active defend
     int health;
     //health points, 0 = taken out
+    //half strength, * level, + 5
     int passiveDefence;
     //passive defend check difficulty, derived from dex
     int meleeSkill;
@@ -37,9 +41,8 @@ public class Fighter {
         alive = true;
         stats.put("strength", rng.nextInt(2, 7) * 2);
         stats.put("dexterity", rng.nextInt(2, 7) * 2);
-        //strength = rng.nextInt(2, 7) * 2;
-        //dexterity = rng.nextInt(2, 7) * 2;
-        health = 16 - strength;
+        level = 1;
+        health = (((16 - stats.get("strength")) / 2) * level) + 5;
         passiveDefence = dexterity + 2;
         meleeSkill = rng.nextInt(0, 3);
         defendSkill = rng.nextInt(0, 2);
@@ -98,41 +101,40 @@ public class Fighter {
     }
 
     public void meleeAttack(Fighter target) {
-        Check meleeCheck = new Check(stats.get(weapon.attribute), 
+        Check meleeCheck = new Check(stats.get(weapon.attribute),
                 meleeSkill, 8);
         Check defendCheck = target.defend();
         int damage = 0;
         System.out.printf("\n%s attacks %s\n", name, target.name);
         boolean hit = meleeCheck.score <= defendCheck.score;
-        
+
         //need to lower bound effect
         if (hit) {
-            
-            damage = weapon.effectTable[meleeCheck.boundEffect].damage - 
-                    target.armour.effectTable[defendCheck.boundEffect].resistance;
-            if (damage > 0){
+
+            damage = weapon.effectTable[meleeCheck.boundEffect].damage
+                    - target.armour.effectTable[defendCheck.boundEffect].resistance;
+            if (damage > 0) {
                 System.out.printf("\nattack hits for %d damage\n", damage);
-            }else{
+            } else {
                 System.out.println("damage resisted!");
             }
-            
-        }else{
+
+        } else {
             System.out.println("attack missed");
         }
         target.takeDamage(damage);
-        
 
     }
-    
-    public Check defend(){
+
+    public Check defend() {
         Check check = new Check(dexterity, defendSkill, 8);
-        
+
         return check;
     }
-    
-    public void takeDamage(int damage){
+
+    public void takeDamage(int damage) {
         health -= damage;
-        if (health <= 0){
+        if (health <= 0) {
             health = 0;
             alive = false;
             System.out.printf("%s has fallen!\n", name);

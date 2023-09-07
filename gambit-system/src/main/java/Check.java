@@ -39,10 +39,7 @@ public class Check {
         gambitSize = check[1].size;
 
         interpret();
-        //System.out.printf("First die: %-2d / %-2d\nSecond die: %-2d / %-2d\n", 
-        //        check[0].result, check[0].size, check[1].result,
-        //        check[1].size);
-        //System.out.printf("Score: %-5d Effect: %-5d", score, effect);    
+
     }
 
     Check(int attribute, int modifier) {
@@ -58,10 +55,7 @@ public class Check {
         gambitSize = check[1].size;
 
         interpret();
-        //System.out.printf("First die: %-2d / %-2d\nSecond die: %-2d / %-2d\n", 
-        //        check[0].result, check[0].size, check[1].result,
-        //        check[1].size);
-        //System.out.printf("Score: %-5d Effect: %-5d", score, effect);    
+
     }
 
     public static Check randomCheck() {
