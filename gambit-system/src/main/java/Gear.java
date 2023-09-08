@@ -14,7 +14,7 @@ import java.util.HashMap;
 public class Gear {
 
     String name;
-    Effect[] effectTable;
+    EffectTable effectTable;
 
 //    public static Gear randomGear() {
 //        Random rng = new Random();
@@ -31,14 +31,12 @@ public class Gear {
 //        }
 //    }
 
-    public Effect[] generateEffectTable() {
-        effectTable = new Effect[13];
-        for (int i = 0; i < 13; i++){
-            effectTable[i] = new Effect();
-        }
-
-        return effectTable;
-    }
+//    public EffectTable generateEffectTable() {
+//        effectTable = new EffectTable();
+//        
+//
+//        return effectTable;
+//    }
 
     //THIS NEEDS REAL VALUES
     public int[] effectValueIncrement(int increment) {
@@ -76,13 +74,10 @@ public class Gear {
     }
 
     Gear() {
+        effectTable = new EffectTable();
 
     }
     
-    public void printEffectTable(){
-        for (int i = 0; i < 13; i++){
-            System.out.println(i + " - " + effectTable[i].details);
-        }
-    }
+
 
 }

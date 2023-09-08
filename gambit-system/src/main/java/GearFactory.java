@@ -8,18 +8,25 @@
  * @author a
  */
 import java.util.Arrays;
+
 public class GearFactory {
-    
-    public static void main (String[] args){
-        System.out.println(Arrays.toString(weaponDamageTable(2,1,3,6)));
-        System.out.println(Arrays.toString(weaponDamageTable(2,1,1,1,1,5)));
-        System.out.println(Arrays.toString(weaponDamageTable(2,1,1,1,1,1,5)));
-        System.out.println(Arrays.toString(weaponDamageTable(2,1,1,1,1,1,1,5)));
+
+    public static void main(String[] args) {
+        System.out.println(Arrays.toString(weaponDamageTable(2, 1, 3, 6)));
+        System.out.println(Arrays.toString(weaponDamageTable(2, 1, 1, 1, 1, 5)));
+        System.out.println(Arrays.toString(weaponDamageTable(2, 1, 1, 1, 1, 1, 5)));
+        System.out.println(Arrays.toString(weaponDamageTable(2, 1, 1, 1, 1, 1, 1, 5)));
+        System.out.println(Arrays.toString(weaponDamageTable(3,0,7)));
+        System.out.println(Arrays.toString(weaponDamageTable(1,1,6,2,4)));
+        Weapon sword = new Weapon("sword");
+        sword.effectTable.printEffectTable();
+        Weapon dagger = new Weapon("dagger");
+        dagger.effectTable.printEffectTable();
     }
 
-    private static int[] segment(int base, int length) {
-        int [] segmentValues = new int[2];
-        switch (base) {
+    private static int[] segment(int value, int length) {
+        int[] segmentValues = new int[2];
+        switch (value) {
             case (0) -> {
                 return new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1};
             }
@@ -39,6 +46,32 @@ public class GearFactory {
                 return new int[]{};
             }
         }
+    }
+
+    public static int[] dynamicTable(int... a) {
+        //individual segment length and bonus can vary based on check effect
+        //[0] will be base
+        //first to second last segment, length dynamic
+        //last segment runs through to 12
+        int[] tableValues = new int[13];
+        int segments = a.length - 2;
+        int dynamicSegments = segments - 1;
+        int baseLength = 12 / segments;
+        int slotsUsed = 0;
+        int baseValue = a[0];
+        Check effectCheck;
+        
+        for (int i = 0; i < dynamicSegments; i++){
+            effectCheck = new Check(8,0,8);
+            //length still 12 / segments
+            //4 segments, 3 dynamic segments
+            //length 3 -?, 3 -?, 3 -?, 3 + remainder
+            for (int j = 0; j < baseLength; j++){
+                
+            }
+        }
+
+        return tableValues;
     }
 
     public static int[] weaponDamageTable(int... a) {
@@ -68,35 +101,34 @@ public class GearFactory {
         length
          */
         int baseDamage = a[0];
-        int critBonus = a[a.length-1];
+        int critBonus = a[a.length - 1];
         int segments = a.length - 2;
         //number of segments
         int segmentLength = 12 / segments;
         //breaks down >4
-        
+
         int[] segmentIncreases = new int[segments];
         //middle elements of a
-        for (int i = 0; i < segments; i++){
-            segmentIncreases[i] = a[i+1];
+        for (int i = 0; i < segments; i++) {
+            segmentIncreases[i] = a[i + 1];
         }
-        System.out.println("segment increases" + Arrays.toString(segmentIncreases));
-        System.out.println("base damage " + baseDamage);
+        //System.out.println("segment increases" + Arrays.toString(segmentIncreases));
+        //System.out.println("base damage " + baseDamage);
         damageTable[0] = baseDamage;
         int segmentValue;
         int previousSegmentValue = baseDamage;
-        
+
         for (int i = 0; i < segments; i++) {
             segmentValue = previousSegmentValue + segmentIncreases[i];
             previousSegmentValue = segmentValue;
-            System.out.println("segment " + (i+1) + " value " + segmentValue);
-            for (int j = 0; j < segmentLength; j++){
-                damageTable[(i*segmentLength)+j+1] = segmentValue;
-                System.out.println("slot " + ((i*segmentLength)+j+1) + " holds value " + segmentValue);
+            //System.out.println("segment " + (i + 1) + " value " + segmentValue);
+            for (int j = 0; j < segmentLength; j++) {
+                damageTable[(i * segmentLength) + j + 1] = segmentValue;
+                //System.out.println("slot " + ((i * segmentLength) + j + 1) + " holds value " + segmentValue);
             }
 
         }
         damageTable[12] += critBonus;
-
 
         return damageTable;
     }

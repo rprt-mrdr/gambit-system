@@ -18,19 +18,19 @@ public class Weapon extends Gear {
         switch (name) {
 
             case "sword" -> {
-                effectTable = generateEffectTable(new int[]{1, 0, 1, 2}, 2, true);
+                effectTable.applyDamageValues(GearFactory.weaponDamageTable(2,2,1,3,4));
                 attribute = "strength";
             }
             case "axe" -> {
-                effectTable = generateEffectTable(new int[]{3, 3, 3, 3}, 2, true);
+                effectTable.applyDamageValues(GearFactory.weaponDamageTable(2,4,1,4,2));
                 attribute = "strength";
             }
             case "dagger" -> {
-                effectTable = generateEffectTable(new int[]{}, 1, true);
+                effectTable.applyDamageValues(GearFactory.weaponDamageTable(1,2,10));
                 attribute = "dexterity";
             }
             case "staff" -> {
-                effectTable = generateEffectTable(new int[]{}, 2, false);
+                effectTable.applyDamageValues(GearFactory.weaponDamageTable(3,0,0));
                 attribute = "strength";
             }
             default -> {
@@ -39,20 +39,20 @@ public class Weapon extends Gear {
 
     }
 
-    public final Effect[] generateEffectTable(int[] shape, int base, boolean bleed) {
-
-        Effect[] effectTable = super.generateEffectTable();
-        effectTable[0].damage = base;
-        effectTable[0].details += base + " damage\n";
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 3; j++) {
-                base += effectValueIncrement(shape[i])[new Roll(12).result];
-                effectTable[(3 * i) + j + 1].damage = base;
-                effectTable[(3 * i) + j + 1].details += base + " damage\n";
-
-            }
-        }
-        return effectTable;
-    }
+//    public final EffectTable generateEffectTable(int[] shape, int base, boolean bleed) {
+//
+//        Effect[] effectTable = super.generateEffectTable();
+//        effectTable[0].damage = base;
+//        effectTable[0].details += base + " damage\n";
+//        for (int i = 0; i < 4; i++) {
+//            for (int j = 0; j < 3; j++) {
+//                base += effectValueIncrement(shape[i])[new Roll(12).result];
+//                effectTable[(3 * i) + j + 1].damage = base;
+//                effectTable[(3 * i) + j + 1].details += base + " damage\n";
+//
+//            }
+//        }
+//        return effectTable;
+//    }
 
 }

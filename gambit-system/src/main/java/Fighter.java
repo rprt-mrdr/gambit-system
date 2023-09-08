@@ -19,9 +19,7 @@ public class Fighter {
     Map<String, Integer> stats = new HashMap<>();
     int level;
 
-    int strength;
     //attribute for attack 
-    int dexterity;
     //attribute for active defend
     int health;
     //health points, 0 = taken out
@@ -34,7 +32,7 @@ public class Fighter {
     //active defend modifier? shield-based class only?
     Weapon weapon;
     Armour armour;
-
+    
     Fighter(String name) {
         Random rng = new Random();
         this.name = name;
@@ -43,7 +41,7 @@ public class Fighter {
         stats.put("dexterity", rng.nextInt(2, 7) * 2);
         level = 1;
         health = (((16 - stats.get("strength")) / 2) * level) + 5;
-        passiveDefence = dexterity + 2;
+        passiveDefence = stats.get("dexterity") + 2;
         meleeSkill = rng.nextInt(0, 3);
         defendSkill = rng.nextInt(0, 2);
         weapon = new Weapon("sword");
@@ -52,57 +50,15 @@ public class Fighter {
     }
 
     public void print() {
-        System.out.printf("Strength: d%d\nDexterity: d%d\n", strength, dexterity);
+        System.out.printf("Name: %s\nStrength: d%d\nDexterity: d%d\n", name,stats.get("strength"), 
+                stats.get("dexterity"));
     }
 
-    public final int[] generateDamageTable(String weapon) {
-        int[] table;
-        switch (weapon) {
-            case "sword" -> {
-                table = new int[]{1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 8};
-            }
-            case "axe" -> {
-                table = new int[]{2, 2, 2, 2, 2, 2, 3, 3, 3, 4, 6, 9};
-            }
-            case "dagger" -> {
-                table = new int[]{1, 1, 1, 1, 1, 1, 1, 2, 2, 3, 3, 12};
-            }
-            case "staff" -> {
-                table = new int[]{2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4};
-            }
-            default -> {
-                System.out.println("unarmed attack");
-                table = new int[]{1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3};
-            }
-        }
-        return table;
-    }
-
-    public final int[] generateResistanceTable(String armour) {
-        int[] table;
-        switch (armour) {
-            case "leather" -> {
-                table = new int[]{};
-            }
-            case "studded" -> {
-                table = new int[]{};
-            }
-            case "chain" -> {
-                table = new int[]{};
-            }
-            case "plate" -> {
-                table = new int[]{};
-            }
-            default -> {
-                table = new int[]{};
-            }
-        }
-        return table;
-    }
+    
 
     public void meleeAttack(Fighter target) {
         Check meleeCheck = new Check(stats.get(weapon.attribute),
-                meleeSkill, 8);
+                meleeSkill);
         Check defendCheck = target.defend();
         int damage = 0;
         System.out.printf("\n%s attacks %s\n", name, target.name);
@@ -110,9 +66,9 @@ public class Fighter {
 
         //need to lower bound effect
         if (hit) {
+            damage = weapon.effectTable.effectTable[meleeCheck.boundEffect].damage - 
+                    target.armour.effectTable.effectTable[defendCheck.boundEffect].resistance;
 
-            damage = weapon.effectTable[meleeCheck.boundEffect].damage
-                    - target.armour.effectTable[defendCheck.boundEffect].resistance;
             if (damage > 0) {
                 System.out.printf("\nattack hits for %d damage\n", damage);
             } else {
@@ -127,7 +83,7 @@ public class Fighter {
     }
 
     public Check defend() {
-        Check check = new Check(dexterity, defendSkill, 8);
+        Check check = new Check(stats.get("dexterity"), defendSkill, 8);
 
         return check;
     }

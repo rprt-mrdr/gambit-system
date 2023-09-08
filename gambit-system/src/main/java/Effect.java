@@ -8,9 +8,24 @@
  * @author a
  */
 public class Effect {
-    int damage = 0;
-    int bleed = 0;
-    int resistance = 0;
-    boolean disarm = false;
-    String details = "";
+
+    int misc;
+    int damage;
+    int bleed;
+    int resistance;
+    boolean disarm;
+    String details;
+
+    Effect() {
+        misc = 0;
+        damage = 0;
+        bleed = 0;
+        resistance = 0;
+        disarm = false;
+        details = "\n";
+    }
+    
+    public void printEffect(){
+        System.out.println(damage + " damage");
+    }
 }
