@@ -1,12 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 
-/**
- *
- * @author a
- */
 public class EffectTable {
     
     Effect[] effectTable;
@@ -39,9 +31,13 @@ public class EffectTable {
     
     public void applyMiscValues(int[] miscTable){
         for (int i = 0; i < effectTable.length; i++){
-            effectTable[i].misc = miscTable[i];
-            effectTable[i].details += effectTable[i].misc + " misc\n";
+            effectTable[i].miscA = miscTable[i];
+            effectTable[i].details += effectTable[i].miscA + " misc\n";
         }
+    }
+    
+    public Effect getEffect(int effectValue){
+        return effectTable[effectValue];
     }
     
 }

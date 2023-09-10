@@ -1,12 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
-/**
- *
- * @author a
- */
 public class Weapon extends Gear {
 
     String attribute;
@@ -18,20 +9,24 @@ public class Weapon extends Gear {
         switch (name) {
 
             case "sword" -> {
-                effectTable.applyDamageValues(GearFactory.weaponDamageTable(2,2,1,3,4));
+                effectTable.applyDamageValues(GearFactory.basicTable(2,2,1,3,4));
                 attribute = "strength";
+                type = "slashing";
             }
             case "axe" -> {
-                effectTable.applyDamageValues(GearFactory.weaponDamageTable(2,4,1,4,2));
+                effectTable.applyDamageValues(GearFactory.basicTable(2,4,1,4,2));
                 attribute = "strength";
+                type = "slashing";
             }
             case "dagger" -> {
-                effectTable.applyDamageValues(GearFactory.weaponDamageTable(1,2,10));
+                effectTable.applyDamageValues(GearFactory.basicTable(1,2,10));
                 attribute = "dexterity";
+                type = "piercing";
             }
             case "staff" -> {
-                effectTable.applyDamageValues(GearFactory.weaponDamageTable(3,0,0));
+                effectTable.applyDamageValues(GearFactory.basicTable(3,0,0));
                 attribute = "strength";
+                type = "crushing";
             }
             default -> {
             }

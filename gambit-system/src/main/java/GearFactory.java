@@ -1,27 +1,23 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 
-/**
- *
- * @author a
- */
 import java.util.Arrays;
 
 public class GearFactory {
 
     public static void main(String[] args) {
-        System.out.println(Arrays.toString(weaponDamageTable(2, 1, 3, 6)));
-        System.out.println(Arrays.toString(weaponDamageTable(2, 1, 1, 1, 1, 5)));
-        System.out.println(Arrays.toString(weaponDamageTable(2, 1, 1, 1, 1, 1, 5)));
-        System.out.println(Arrays.toString(weaponDamageTable(2, 1, 1, 1, 1, 1, 1, 5)));
-        System.out.println(Arrays.toString(weaponDamageTable(3,0,7)));
-        System.out.println(Arrays.toString(weaponDamageTable(1,1,6,2,4)));
-        Weapon sword = new Weapon("sword");
-        sword.effectTable.printEffectTable();
-        Weapon dagger = new Weapon("dagger");
-        dagger.effectTable.printEffectTable();
+//        System.out.println(Arrays.toString(basicTable(2, 1, 3, 6)));
+//        System.out.println(Arrays.toString(basicTable(2, 1, 1, 1, 1, 5)));
+//        System.out.println(Arrays.toString(basicTable(2, 1, 1, 1, 1, 1, 5)));
+//        System.out.println(Arrays.toString(basicTable(2, 1, 1, 1, 1, 1, 1, 5)));
+//        System.out.println(Arrays.toString(basicTable(3,0,7)));
+//        System.out.println(Arrays.toString(basicTable(1,1,6,2,4)));
+//        Weapon sword = new Weapon("sword");
+//        sword.effectTable.printEffectTable();
+//        Weapon dagger = new Weapon("dagger");
+//        dagger.effectTable.printEffectTable();
+        int[] table = dynamicTable(1,1,1,1);
+
+        System.out.println(Arrays.toString(table));
+        
     }
 
     private static int[] segment(int value, int length) {
@@ -49,34 +45,83 @@ public class GearFactory {
     }
 
     public static int[] dynamicTable(int... a) {
+        EffectTable lengthAndBonusTable = new EffectTable();
+
+        //use misc for bonus
+        lengthAndBonusTable.applyMiscValues(GearFactory.basicTable(0, 0, 1, 1));
+        //{0,0,0,0,0,0,0,1,1,1,1,1,2}
+
+        //use damage for length reduction
+        lengthAndBonusTable.applyDamageValues(GearFactory.basicTable(0, 0, 0, 1, 1));
+        //{0,0,0,0,0,0,0,0,0,1,1,1,2}
+
         //individual segment length and bonus can vary based on check effect
         //[0] will be base
         //first to second last segment, length dynamic
         //last segment runs through to 12
-        int[] tableValues = new int[13];
+        int[] dynamicTable = new int[13];
         int segments = a.length - 2;
         int dynamicSegments = segments - 1;
         int baseLength = 12 / segments;
-        int slotsUsed = 0;
+        int[] segmentIncreases = new int[segments];
+        //middle elements of a
+        for (int i = 0; i < segments; i++) {
+            segmentIncreases[i] = a[i + 1];
+        }
+        int slotsUsed = 1;
         int baseValue = a[0];
+        dynamicTable[0] = baseValue;
+        int previousSegmentValue = baseValue;
         Check effectCheck;
-        
-        for (int i = 0; i < dynamicSegments; i++){
-            effectCheck = new Check(8,0,8);
+
+        int segmentLength;
+        int segmentValue;
+
+        //populate dynamic segments
+        for (int i = 0; i < dynamicSegments; i++) {
+            
+            effectCheck = new Check(4, 0, 8);
+            effectCheck.print();
+
+            if (effectCheck.score <= 8) {
+                segmentLength = baseLength - lengthAndBonusTable.getEffect(effectCheck.boundEffect).damage;
+                segmentValue = previousSegmentValue + segmentIncreases[i]
+                        + lengthAndBonusTable.getEffect(effectCheck.boundEffect).miscA;
+            }else{
+                System.out.println(i + " roll failed!");
+                segmentLength = baseLength + 1;
+                segmentValue = previousSegmentValue;
+            }
+            System.out.println("Segment " + i + "\nvalue " + segmentValue);
+            previousSegmentValue = segmentValue;
             //length still 12 / segments
             //4 segments, 3 dynamic segments
             //length 3 -?, 3 -?, 3 -?, 3 + remainder
-            for (int j = 0; j < baseLength; j++){
-                
+            for (int j = 0; j < segmentLength; j++) {
+                dynamicTable[slotsUsed] = segmentValue;
+                slotsUsed++;
             }
         }
+        effectCheck = new Check(4, 0, 8);
+        effectCheck.print();
+        segmentValue = previousSegmentValue + segmentIncreases[a[a.length - 1]]
+                + lengthAndBonusTable.getEffect(effectCheck.boundEffect).miscA;
+        System.out.println("final segment value " + segmentValue);
+        //populate last/non-dynamic segment
 
-        return tableValues;
+        for (int i = slotsUsed; i < 13; i++) {
+            dynamicTable[i] = segmentValue;
+            System.out.println("last segment value applied to " + i + ": " + segmentValue);
+        }
+
+        dynamicTable[12] += a[a.length - 1];
+
+        return dynamicTable;
     }
 
-    public static int[] weaponDamageTable(int... a) {
+    public static int[] basicTable(int... a) {
 
-        int[] damageTable = new int[13];
+        int[] basicTable = new int[13];
         /*
         last value crit bonus (increase from last segment on 12)
         first value base damage
@@ -114,7 +159,7 @@ public class GearFactory {
         }
         //System.out.println("segment increases" + Arrays.toString(segmentIncreases));
         //System.out.println("base damage " + baseDamage);
-        damageTable[0] = baseDamage;
+        basicTable[0] = baseDamage;
         int segmentValue;
         int previousSegmentValue = baseDamage;
 
@@ -123,14 +168,14 @@ public class GearFactory {
             previousSegmentValue = segmentValue;
             //System.out.println("segment " + (i + 1) + " value " + segmentValue);
             for (int j = 0; j < segmentLength; j++) {
-                damageTable[(i * segmentLength) + j + 1] = segmentValue;
+                basicTable[(i * segmentLength) + j + 1] = segmentValue;
                 //System.out.println("slot " + ((i * segmentLength) + j + 1) + " holds value " + segmentValue);
             }
 
         }
-        damageTable[12] += critBonus;
+        basicTable[12] += critBonus;
 
-        return damageTable;
+        return basicTable;
     }
 
 }

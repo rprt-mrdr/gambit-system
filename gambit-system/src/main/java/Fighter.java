@@ -1,15 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
-/**
- *
- * @author geoff
- */
 import java.util.Random;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Scanner;
 
 public class Fighter {
 
@@ -18,6 +10,7 @@ public class Fighter {
     String name;
     Map<String, Integer> stats = new HashMap<>();
     int level;
+    //Map<String, EffectTable> effectTable = new HashMap<>();
 
     //attribute for attack 
     //attribute for active defend
@@ -32,6 +25,27 @@ public class Fighter {
     //active defend modifier? shield-based class only?
     Weapon weapon;
     Armour armour;
+    
+    Fighter(){
+        Scanner input = new Scanner(System.in);
+        System.out.println("enter name");
+        name = input.next();
+        System.out.println("enter level");
+        level = input.nextInt();
+        System.out.println("enter strength");
+        stats.put("strength", input.nextInt());
+        System.out.println("enter dexterity");
+        stats.put("dexterity", input.nextInt());
+        System.out.println("enter melee skill");
+        meleeSkill = input.nextInt();
+        System.out.println("enter defend skill");
+        defendSkill = input.nextInt();
+        System.out.println("enter weapon");
+        weapon = new Weapon(input.next());
+        System.out.println("enter armour");
+        armour = new Armour(input.next());
+        health = (((16 - stats.get("strength")) / 2) * level) + 5;
+    }
     
     Fighter(String name) {
         Random rng = new Random();
@@ -50,7 +64,7 @@ public class Fighter {
     }
 
     public void print() {
-        System.out.printf("Name: %s\nStrength: d%d\nDexterity: d%d\n", name,stats.get("strength"), 
+        System.out.printf("Name: %s  Level: %d\nStrength: d%d  Dexterity: d%d\n", name,level,stats.get("strength"), 
                 stats.get("dexterity"));
     }
 
@@ -83,9 +97,9 @@ public class Fighter {
     }
 
     public Check defend() {
-        Check check = new Check(stats.get("dexterity"), defendSkill, 8);
+        Check defendCheck = new Check(stats.get("dexterity"), defendSkill, 8);
 
-        return check;
+        return defendCheck;
     }
 
     public void takeDamage(int damage) {

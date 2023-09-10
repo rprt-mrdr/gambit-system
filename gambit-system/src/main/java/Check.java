@@ -1,12 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 
-/**
- *
- * @author geoff
- */
 import java.util.Random;
 import java.util.Scanner;
 
@@ -28,6 +20,26 @@ public class Check {
     int effectMax;
     int effectRange;
     Roll[] check;
+    
+    Check(){
+        Scanner input = new Scanner(System.in);
+        System.out.println("enter attribute");
+        int attributeChoice = input.nextInt();
+        System.out.println("enter modifier");
+        int modifierChoice = input.nextInt();
+        System.out.println("enter gambit");
+        int gambitChoice = input.nextInt();
+        
+        check = new Roll[]{new Roll(attributeChoice), new Roll(gambitChoice)};
+        this.modifier = modifierChoice;
+        
+        attributeResult = check[0].result;
+        gambitResult = check[1].result;
+        attributeSize = check[0].size;
+        gambitSize = check[1].size;
+
+        interpret();
+    }
 
     Check(int attribute, int modifier, int gambit) {
 
