@@ -1,1 +1,2 @@
 *.class
+/gambit-system/target/

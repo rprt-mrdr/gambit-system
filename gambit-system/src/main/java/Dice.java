@@ -10,6 +10,7 @@
 import java.util.Random;
 import java.util.Arrays;
 import java.util.Scanner;
+import java.text.DecimalFormat;
 
 public class Dice {
 
@@ -17,6 +18,70 @@ public class Dice {
     static Scanner input = new Scanner(System.in);
 
     public static void main(String[] args) {
+        System.out.println("enter attribute die, then gambit die");
+        int attribute = input.nextInt();
+        int gambit = input.nextInt();
+        analysis(attribute, gambit);
+
+    }
+
+    public static int effect(int gSize, int a, int g) {
+
+        return gSize - Math.abs(a - g);
+    }
+
+    public static void analysis(int attribute, int gambit) {
+
+        int possibleRolls = attribute * gambit;
+        System.out.println(possibleRolls + " possible rolls");
+        int effect;
+        int minEffect = (gambit - Math.max(gambit, attribute)) + 1;
+        int possibleEffectValues = (gambit - minEffect) + 1;
+
+        int[] effectValues = new int[possibleEffectValues];
+        for (int i = 0; i < effectValues.length; i++) {
+            effectValues[i] = minEffect + i;
+        }
+
+        int[] effectTally = new int[possibleEffectValues];
+        for (int i = 0; i < gambit; i++) {
+
+            for (int j = 0; j < attribute; j++) {
+                effect = effect(gambit, j + 1, i + 1);
+                effectTally[effect - minEffect]++;
+            }
+        }
+
+        float[] effectPercentage = new float[possibleEffectValues];
+        DecimalFormat df = new DecimalFormat("#.##");
+        for (int i = 0; i < effectPercentage.length; i++) {
+            effectPercentage[i] = Float.parseFloat(df.format(((float) effectTally[i] / possibleRolls) * 100));
+
+        }
+        
+        float[] cumulativePercentage = new float[possibleEffectValues];
+        float runningTotal = 0;
+        for (int i = 0; i < cumulativePercentage.length; i++){
+            runningTotal += effectPercentage[possibleEffectValues - 1 - i];
+            cumulativePercentage[possibleEffectValues - 1 - i] = runningTotal;
+        }
+        
+        System.out.print("Effect:\n");
+        for (int i = 0; i < possibleEffectValues; i++) {
+            System.out.printf("%-7d", effectValues[i]);
+        }
+        System.out.println("\nTally, out of " + possibleRolls);
+        for (int i = 0; i < possibleEffectValues; i++) {
+            System.out.printf("%-7d", effectTally[i]);
+        }
+        System.out.println("\nPercent chance:");
+        for (int i = 0; i < possibleEffectValues; i++) {
+            System.out.printf("%-7.2f", effectPercentage[i]);
+        }
+        System.out.println("\nCumulative chance:");
+        for (int i = 0; i < possibleEffectValues; i++){
+            System.out.printf("%-7.2f", cumulativePercentage[i]);
+        }
 
     }
 
